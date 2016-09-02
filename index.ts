@@ -15,7 +15,6 @@ export abstract class Component
     private static _map : any[] = [];
     public static get map() : any[] { return this._map; }
 
-
     public constructor()
     {
         let entity : IEntity = Entity.pass;
@@ -36,8 +35,8 @@ export abstract class Component
             Component._map[ indexName ][ entity.id ] = [];
 
         Component._map[ indexName ][ entity.id ].push( this )
-
-        let args = entity.args || [];
+        
+        let args : any = [ ...( arguments as any ) ];
         Entity.pass = undefined;
         initialize( this, args );  
     }
@@ -64,7 +63,6 @@ export abstract class Component
     {
         let entity : IEntity = getEntityByID( this.__id );
         Entity.pass = entity;
-        Entity.pass.args = args;
 
         let t:      any         = target;
         let object: Component   = new t( ...args );
