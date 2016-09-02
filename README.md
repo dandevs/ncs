@@ -27,7 +27,7 @@ class Two extends NCS.Component
 {
     OnInit( value ) {
         let one = this.getComponent( One );
-        let three = this.getComponent( Three )
+        let three = this.getComponent( Three );
     }
 
     foo() {
@@ -46,8 +46,7 @@ new One();
 
 NCS.runSystem( Two, "foo" );
 // Or.....
-NCS.runSystemCB( Two, two =>
-{
+NCS.runSystemCB( Two, two => {
     two.foo();
 });
 ```
