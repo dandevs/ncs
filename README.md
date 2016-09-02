@@ -9,7 +9,7 @@
 ## Example
 
 ```
-import * as NCS from "./ncs";
+import * as NCS from "ncs";
 
 class One extends NCS.Component
 {
