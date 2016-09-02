@@ -10,15 +10,11 @@ class Entity implements IEntity
 export abstract class Component
 {
     private __id : number;
+    public get instanceID() : number { return this.__id; }
+
     private static _map : any[] = [];
     public static get map() : any[] { return this._map; }
 
-    /**
-     * Returns this components ID
-     */
-    public get instanceID() : number {
-        return this.__id;
-    }
 
     public constructor()
     {
@@ -72,14 +68,13 @@ export abstract class Component
 
         let t:      any         = target;
         let object: Component   = new t( ...args );
-        let isECS:  boolean     =  object.instanceID ? true : false; 
+        let isECS:  boolean     = object.instanceID != undefined ? true : false; 
 
         Entity.pass = undefined;
 
         if ( !isECS )
         {
             let indexName = t;
-
             if ( !Component._map[ indexName ] )
                 Component._map[ indexName ] = []
 
@@ -102,7 +97,7 @@ export function runSystemCB( target : Function, callback : ( object : any ) => v
 {
     let t : any = target;
     let components = Component.map[ t ];
-    
+
     for ( let i in components ) 
         for ( let j in components[ i ] )
             callback( components[ i ][ j ] );
