@@ -21,22 +21,17 @@ var Component = (function () {
         if (!Component._map[indexName][entity.id])
             Component._map[indexName][entity.id] = [];
         Component._map[indexName][entity.id].push(this);
-        var args = entity.args || [];
+        var args = arguments.slice();
         Entity.pass = undefined;
         initialize(this, args);
     }
-    Object.defineProperty(Component, "map", {
-        get: function () { return this._map; },
+    Object.defineProperty(Component.prototype, "instanceID", {
+        get: function () { return this.__id; },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Component.prototype, "instanceID", {
-        /**
-         * Returns this components ID
-         */
-        get: function () {
-            return this.__id;
-        },
+    Object.defineProperty(Component, "map", {
+        get: function () { return this._map; },
         enumerable: true,
         configurable: true
     });
@@ -63,10 +58,9 @@ var Component = (function () {
         }
         var entity = getEntityByID(this.__id);
         Entity.pass = entity;
-        Entity.pass.args = args;
         var t = target;
         var object = new (t.bind.apply(t, [void 0].concat(args)))();
-        var isECS = object.instanceID ? true : false;
+        var isECS = object.instanceID != undefined ? true : false;
         Entity.pass = undefined;
         if (!isECS) {
             var indexName = t;
