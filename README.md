@@ -15,6 +15,8 @@ class One extends NCS.Component
 {
     constructor() {
         super();
+        // let three = this.addComponent( Three );
+        // let two = this.addComponent( Two, 123 );
     }
     // Or.....
     OnInit() {
