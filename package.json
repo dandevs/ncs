@@ -1,0 +1,14 @@
+{
+  "name": "ncs",
+  "version": "1.4.8",
+  "description": "A simple component manager",
+  "main": "index.js",
+  "author": "Natty",
+  "license": "ISC",
+  "scripts": {
+    "prepublish": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.10"
+  }
+}
