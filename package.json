@@ -1,6 +1,6 @@
 {
   "name": "ncs",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Minimalist Entity Component System",
   "main": "index.js",
   "author": "Natty",
@@ -10,5 +10,6 @@
   },
   "devDependencies": {
     "typescript": "^1.8.10"
-  }
+  },
+  "repository": "dandevs/ncs"
 }
