@@ -34,9 +34,12 @@ export abstract class Component
         if ( !Component._map[ indexName ][ entity.id ] )
             Component._map[ indexName ][ entity.id ] = [];
 
-        Component._map[ indexName ][ entity.id ].push( this )
+        Component._map[ indexName ][ entity.id ].push( this );
         
-        let args : any = [ ...( arguments as any ) ];
+        let args : any = []
+        for ( let idx in arguments )
+            args[ idx ] = arguments[ idx ];
+
         Entity.pass = undefined;
         initialize( this, args );  
     }

@@ -21,7 +21,9 @@ var Component = (function () {
         if (!Component._map[indexName][entity.id])
             Component._map[indexName][entity.id] = [];
         Component._map[indexName][entity.id].push(this);
-        var args = arguments.slice();
+        var args = [];
+        for (var idx in arguments)
+            args[idx] = arguments[idx];
         Entity.pass = undefined;
         initialize(this, args);
     }
