@@ -1,10 +1,13 @@
 # NCS
 
 ## API
-* `getComponent( target, id? )` Returns the first instantiated component of target
+* `getComponent( target, id? )` Returns the last instantiated component of target
 * `getAllComponents( target, id? )` Returns all components of target with specified id
+* `addComponent( target, id? )` Creates and returns a new component of target
+* `removeComponent( target : Function | Object, id? )` Removes components. Removes all instances of target if type is a Function, Object removes this specific component 
 * `runSystem( target, function_name )` Runs specified function on all specified component
 * `runSystemCB( target, callback )` Iterates through every target component, passing  the component itself in to the callback 
+
 
 ## Example
 
@@ -23,6 +26,12 @@ class One extends NCS.Component
     OnInit() {
         let three = this.addComponent( Three );
         let two = this.addComponent( Two, [ 123 ] );
+        
+        // Remoevs only this specific Three
+        this.removeComponent( three );
+        
+        // This will remove all Three on this entity
+        // this.removeComponent( Three );
     }
 }
 

@@ -58,6 +58,11 @@ export abstract class Component
         return getAllComponents( target, id );
     }
 
+    public removeComponent( target : Function | Object, id = this.__id )
+    {
+        removeComponent( target, id );
+    }
+
     /**
      * Creates and returns a new component
      * @param {Function} The component type to create
@@ -110,7 +115,7 @@ export function runSystemCB( target : Function, callback : ( object : any ) => v
  * @param {string} The name of the function to runSystem
  * @param {...} Any arguements to pass in to that function
  */
-export function runSystem( target : Function, func : string, ...args : any[] )
+export function runSystem( target : Function, func : string, args? : any[] )
 {
     let t : any = target;
     let components = Component.map[ t ];
@@ -130,20 +135,54 @@ export function getEntityByID( id : number ) // Possibly redundant
 }
 
 /**
- * Get a component by a type from an ID
+ * Get a component by a type from an ID, returns the latest one created
  * @param {Function} The type to retrieve
  * @param {number} the ID to retrieve from
  */
 export function getComponent( target : Function, id : number ) : any
 {
     let t : any = target;
-    return Component.map[ t ][ id ][ 0 ];
+
+    if ( !Component.map[ t ] )
+    {
+        console.log( "NCS: No components of '" + functionName( target ) + "' exist" )
+        return
+    }
+
+    let l : number = Component.map[ t ][ id ].length - 1;
+    return Component.map[ t ][ id ][ l ];
 }
 
+/**
+ * Returns an array of all components of target
+ * @param {Function} The type to retrieve
+ * @param {number} the ID to retrieve from
+ */
 export function getAllComponents( target : Function, id : number ) : any[]
 {
     let t : any = target;
+    
+    if ( !Component.map[ t ] )
+    {
+        console.log( "NCS: No components of '" + functionName( target ) + "' exist" )
+        return
+    }
+
     return Component.map[ t ][ id ];
+}
+
+export function removeComponent( target : Function | Object, id : number )
+{
+    let t : any = target;
+
+    if ( typeof( target ) == "function" )
+        Component.map[ t ][ id ] = [];
+    else
+    {
+        let index = Component.map[ t.constructor ][ id ].indexOf( target );
+        if ( index > -1 )
+            Component.map[ t.constructor ][ id ].splice( index, 1 );
+    }
 }
 
 /**
@@ -154,6 +193,14 @@ function initialize( target : Object, args : any[] )
 {
     if ( target[ init_string ] ) 
         target[ init_string ]( ...args );
+}
+
+function functionName( fun ) 
+{
+  var ret = fun.toString();
+  ret = ret.substr( "function ".length );
+  ret = ret.substr( 0, ret.indexOf( "(" ) );
+  return ret;
 }
 
 interface IEntity

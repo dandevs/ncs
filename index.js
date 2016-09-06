@@ -49,15 +49,15 @@ var Component = (function () {
         if (id === void 0) { id = this.__id; }
         return getAllComponents(target, id);
     };
+    Component.prototype.removeComponent = function (target, id) {
+        if (id === void 0) { id = this.__id; }
+        removeComponent(target, id);
+    };
     /**
      * Creates and returns a new component
      * @param {Function} The component type to create
      */
-    Component.prototype.addComponent = function (target) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    Component.prototype.addComponent = function (target, args) {
         var entity = getEntityByID(this.__id);
         Entity.pass = entity;
         var t = target;
@@ -97,11 +97,7 @@ exports.runSystemCB = runSystemCB;
  * @param {string} The name of the function to runSystem
  * @param {...} Any arguements to pass in to that function
  */
-function runSystem(target, func) {
-    var args = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args[_i - 2] = arguments[_i];
-    }
+function runSystem(target, func, args) {
     var t = target;
     var components = Component.map[t];
     for (var i in components)
@@ -119,20 +115,45 @@ function getEntityByID(id) {
 }
 exports.getEntityByID = getEntityByID;
 /**
- * Get a component by a type from an ID
+ * Get a component by a type from an ID, returns the latest one created
  * @param {Function} The type to retrieve
  * @param {number} the ID to retrieve from
  */
 function getComponent(target, id) {
     var t = target;
-    return Component.map[t][id][0];
+    if (!Component.map[t]) {
+        console.log("NCS: No components of '" + functionName(target) + "' exist");
+        return;
+    }
+    var l = Component.map[t][id].length - 1;
+    return Component.map[t][id][l];
 }
 exports.getComponent = getComponent;
+/**
+ * Returns an array of all components of target
+ * @param {Function} The type to retrieve
+ * @param {number} the ID to retrieve from
+ */
 function getAllComponents(target, id) {
     var t = target;
+    if (!Component.map[t]) {
+        console.log("NCS: No components of '" + functionName(target) + "' exist");
+        return;
+    }
     return Component.map[t][id];
 }
 exports.getAllComponents = getAllComponents;
+function removeComponent(target, id) {
+    var t = target;
+    if (typeof (target) == "function")
+        Component.map[t][id] = [];
+    else {
+        var index = Component.map[t.constructor][id].indexOf(target);
+        if (index > -1)
+            Component.map[t.constructor][id].splice(index, 1);
+    }
+}
+exports.removeComponent = removeComponent;
 /**
  * Runs OnInit() on the target object
  * @param {Object} the object to initialize
@@ -140,4 +161,10 @@ exports.getAllComponents = getAllComponents;
 function initialize(target, args) {
     if (target[init_string])
         target[init_string].apply(target, args);
+}
+function functionName(fun) {
+    var ret = fun.toString();
+    ret = ret.substr("function ".length);
+    ret = ret.substr(0, ret.indexOf("("));
+    return ret;
 }
