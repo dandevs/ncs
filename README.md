@@ -27,7 +27,7 @@ class One extends NCS.Component
         let three = this.addComponent( Three );
         let two = this.addComponent( Two, [ 123 ] );
         
-        // Remoevs only this specific Three
+        // Removes only this specific Three
         this.removeComponent( three );
         
         // This will remove all Three on this entity
