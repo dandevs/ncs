@@ -62,7 +62,7 @@ export abstract class Component
      * Creates and returns a new component
      * @param {Function} The component type to create
      */
-    public addComponent( target : Function, ...args : any[] ) : any
+    public addComponent( target : Function, args? : any[] ) : any
     {
         let entity : IEntity = getEntityByID( this.__id );
         Entity.pass = entity;

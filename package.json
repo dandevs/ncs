@@ -1,6 +1,6 @@
 {
   "name": "ncs",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Minimalist Entity Component System",
   "main": "index.js",
   "author": "Natty",
