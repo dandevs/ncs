@@ -11,5 +11,13 @@
   "devDependencies": {
     "typescript": "^1.8.10"
   },
-  "repository": "dandevs/ncs"
+  "repository": "dandevs/ncs",
+  "keywords": [
+    "entity",
+    "component",
+    "system",
+    "simple",
+    "minimal",
+    "minimalist"
+  ]
 }
