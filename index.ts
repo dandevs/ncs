@@ -159,7 +159,7 @@ export function getComponent( target : Function, id : number ) : any
 
     if ( !Component.map[ t ] )
     {
-        console.log( "NCS: No components of '" + functionName( target ) + "' exist" )
+        console.log( "NCS: No components of '" + target + "' exist" )
         return
     }
 
@@ -178,7 +178,7 @@ export function getAllComponents( target : Function, id : number ) : any[]
     
     if ( !Component.map[ t ] )
     {
-        console.log( "NCS: No components of '" + functionName( target ) + "' exist" )
+        console.log( "NCS: No components of '" + target + "' exist" )
         return
     }
 
