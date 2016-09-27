@@ -26,7 +26,7 @@ export abstract class Component
         Entity.instances[ entity.id ] = entity;
 
         // Construct field for this name
-        let indexName : any = functionName( this.constructor );
+        let indexName : any = this.constructor;
 
         if ( !Component._map[ indexName ] )
             Component._map[ indexName ] = []
@@ -207,14 +207,6 @@ function initialize( target : Object, args : any[] )
 {
     if ( target[ init_string ] ) 
         target[ init_string ]( ...args );
-}
-
-function functionName( fun ) 
-{
-  var ret = fun.toString();
-  ret = ret.substr( "function ".length);
-  ret = ret.substr(0, ret.indexOf("("));
-  return ret;
 }
 
 interface IEntity
