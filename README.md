@@ -57,11 +57,13 @@ class Three
     }
 }
 
-new One();
+let one = new One();
 
 NCS.runSystem( Two, "foo" );
 // Or.....
 NCS.runSystemCB( Two, two => {
     two.foo();
 });
+
+one.destroyEntity(); // Destroy all references on NCS
 ```
