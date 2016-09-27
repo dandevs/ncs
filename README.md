@@ -4,10 +4,10 @@
 * `getComponent( target, id? )` Returns the last instantiated component of target
 * `getAllComponents( target, id? )` Returns all components of target with specified id
 * `addComponent( target, id? )` Creates and returns a new component of target
-* `removeComponent( target : Function | Object, id? )` Removes components. Removes all instances of target if type is a Function, Object removes this specific component 
+* `removeComponent( target : Function | Object, id? )`Removes all instances of target if type is a Function, Object removes this specific component 
+* `destroyEntity( id : number )` Destroys all components on an entity
 * `runSystem( target, function_name )` Runs specified function on all specified component
 * `runSystemCB( target, callback )` Iterates through every target component, passing  the component itself in to the callback 
-
 
 ## Example
 
@@ -37,6 +37,9 @@ class One extends NCS.Component
 
 class Two extends NCS.Component
 {
+    // constructor( value ) { ...... 
+    // or vvv
+
     OnInit( value ) {
         let one = this.getComponent( One );
         let three = this.getComponent( Three );

@@ -20,13 +20,13 @@ export abstract class Component
         let entity : IEntity = Entity.pass;
 
         if ( !entity ) 
-            entity = { root : this, id : Entity.counter++ }
+            entity = { root : this, id : Entity.counter++, refs : [] }
 
         this.__id = entity.id;
         Entity.instances[ entity.id ] = entity;
 
         // Construct field for this name
-        let indexName : any = this.constructor;
+        let indexName : any = functionName( this.constructor );
 
         if ( !Component._map[ indexName ] )
             Component._map[ indexName ] = []
@@ -34,6 +34,7 @@ export abstract class Component
         if ( !Component._map[ indexName ][ entity.id ] )
             Component._map[ indexName ][ entity.id ] = [];
 
+        entity.refs.push( this );
         Component._map[ indexName ][ entity.id ].push( this );
         
         let args : any = []
@@ -61,6 +62,11 @@ export abstract class Component
     public removeComponent( target : Function | Object, id = this.__id )
     {
         removeComponent( target, id );
+    }
+
+    public destroyEntity( id : number = this.__id )
+    {
+        destroyEntity( id );
     }
 
     /**
@@ -125,6 +131,14 @@ export function runSystem( target : Function, func : string, args? : any[] )
             components[ i ][ j ][ func ]( ...args );
 }
 
+export function destroyEntity( id : number )
+{
+    let components : Component[] = getEntityByID( id ).refs;
+
+    for ( let component of components )
+        component.removeComponent( component );
+}
+
 /**
  * Retrieve an ID by an ID
  * @param {id} the ID of the entity to retriev
@@ -176,7 +190,7 @@ export function removeComponent( target : Function | Object, id : number )
     let t : any = target;
 
     if ( typeof( target ) == "function" )
-        Component.map[ t ][ id ] = [];
+        console.log( Component.map[ t ][ id ] = [] );
     else
     {
         let index = Component.map[ t.constructor ][ id ].indexOf( target );
@@ -198,8 +212,8 @@ function initialize( target : Object, args : any[] )
 function functionName( fun ) 
 {
   var ret = fun.toString();
-  ret = ret.substr( "function ".length );
-  ret = ret.substr( 0, ret.indexOf( "(" ) );
+  ret = ret.substr( "function ".length);
+  ret = ret.substr(0, ret.indexOf("("));
   return ret;
 }
 
@@ -208,4 +222,5 @@ interface IEntity
     root?:      Object;
     id?:        number;
     args?:      any;
+    refs?:      any[];
 }

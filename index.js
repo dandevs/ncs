@@ -11,15 +11,16 @@ var Component = (function () {
     function Component() {
         var entity = Entity.pass;
         if (!entity)
-            entity = { root: this, id: Entity.counter++ };
+            entity = { root: this, id: Entity.counter++, refs: [] };
         this.__id = entity.id;
         Entity.instances[entity.id] = entity;
         // Construct field for this name
-        var indexName = this.constructor;
+        var indexName = functionName(this.constructor);
         if (!Component._map[indexName])
             Component._map[indexName] = [];
         if (!Component._map[indexName][entity.id])
             Component._map[indexName][entity.id] = [];
+        entity.refs.push(this);
         Component._map[indexName][entity.id].push(this);
         var args = [];
         for (var idx in arguments)
@@ -52,6 +53,10 @@ var Component = (function () {
     Component.prototype.removeComponent = function (target, id) {
         if (id === void 0) { id = this.__id; }
         removeComponent(target, id);
+    };
+    Component.prototype.destroyEntity = function (id) {
+        if (id === void 0) { id = this.__id; }
+        destroyEntity(id);
     };
     /**
      * Creates and returns a new component
@@ -106,6 +111,14 @@ function runSystem(target, func, args) {
     var _a;
 }
 exports.runSystem = runSystem;
+function destroyEntity(id) {
+    var components = getEntityByID(id).refs;
+    for (var _i = 0, components_1 = components; _i < components_1.length; _i++) {
+        var component = components_1[_i];
+        component.removeComponent(component);
+    }
+}
+exports.destroyEntity = destroyEntity;
 /**
  * Retrieve an ID by an ID
  * @param {id} the ID of the entity to retriev
@@ -146,7 +159,7 @@ exports.getAllComponents = getAllComponents;
 function removeComponent(target, id) {
     var t = target;
     if (typeof (target) == "function")
-        Component.map[t][id] = [];
+        console.log(Component.map[t][id] = []);
     else {
         var index = Component.map[t.constructor][id].indexOf(target);
         if (index > -1)
