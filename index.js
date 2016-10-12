@@ -134,10 +134,8 @@ exports.getEntityByID = getEntityByID;
  */
 function getComponent(target, id) {
     var t = target;
-    if (!Component.map[t]) {
-        console.log("NCS: No components of '" + target + "' exist");
-        return;
-    }
+    if (!Component.map[t])
+        return undefined;
     var l = Component.map[t][id].length - 1;
     return Component.map[t][id][l];
 }
@@ -149,17 +147,15 @@ exports.getComponent = getComponent;
  */
 function getAllComponents(target, id) {
     var t = target;
-    if (!Component.map[t]) {
-        console.log("NCS: No components of '" + target + "' exist");
-        return;
-    }
+    if (!Component.map[t])
+        return [];
     return Component.map[t][id];
 }
 exports.getAllComponents = getAllComponents;
 function removeComponent(target, id) {
     var t = target;
     if (typeof (target) == "function")
-        console.log(Component.map[t][id] = []);
+        Component.map[t][id] = [];
     else {
         var index = Component.map[t.constructor][id].indexOf(target);
         if (index > -1)

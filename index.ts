@@ -184,7 +184,7 @@ export function removeComponent( target : Function | Object, id : number )
     let t : any = target;
 
     if ( typeof( target ) == "function" )
-        console.log( Component.map[ t ][ id ] = [] );
+        Component.map[ t ][ id ] = [];
     else
     {
         let index = Component.map[ t.constructor ][ id ].indexOf( target );
