@@ -11,7 +11,7 @@
 
 ## Example
 
-```ts
+```js
 import * as NCS from "ncs";
 // or var NCS = require( "ncs" );
 

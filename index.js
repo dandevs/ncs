@@ -15,7 +15,7 @@ var Component = (function () {
         this.__id = entity.id;
         Entity.instances[entity.id] = entity;
         // Construct field for this name
-        var indexName = functionName(this.constructor);
+        var indexName = this.constructor;
         if (!Component._map[indexName])
             Component._map[indexName] = [];
         if (!Component._map[indexName][entity.id])
@@ -135,7 +135,7 @@ exports.getEntityByID = getEntityByID;
 function getComponent(target, id) {
     var t = target;
     if (!Component.map[t]) {
-        console.log("NCS: No components of '" + functionName(target) + "' exist");
+        console.log("NCS: No components of '" + target + "' exist");
         return;
     }
     var l = Component.map[t][id].length - 1;
@@ -150,7 +150,7 @@ exports.getComponent = getComponent;
 function getAllComponents(target, id) {
     var t = target;
     if (!Component.map[t]) {
-        console.log("NCS: No components of '" + functionName(target) + "' exist");
+        console.log("NCS: No components of '" + target + "' exist");
         return;
     }
     return Component.map[t][id];
@@ -174,10 +174,4 @@ exports.removeComponent = removeComponent;
 function initialize(target, args) {
     if (target[init_string])
         target[init_string].apply(target, args);
-}
-function functionName(fun) {
-    var ret = fun.toString();
-    ret = ret.substr("function ".length);
-    ret = ret.substr(0, ret.indexOf("("));
-    return ret;
 }

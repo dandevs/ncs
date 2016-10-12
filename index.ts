@@ -96,6 +96,7 @@ export abstract class Component
             Component._map[ indexName ][ entity.id ].push( object )
         }
 
+        console.log( "ASDSD")
         return object;
     }
 }
@@ -158,10 +159,7 @@ export function getComponent( target : Function, id : number ) : any
     let t : any = target;
 
     if ( !Component.map[ t ] )
-    {
-        console.log( "NCS: No components of '" + target + "' exist" )
-        return
-    }
+        return undefined;
 
     let l : number = Component.map[ t ][ id ].length - 1;
     return Component.map[ t ][ id ][ l ];
@@ -177,10 +175,7 @@ export function getAllComponents( target : Function, id : number ) : any[]
     let t : any = target;
     
     if ( !Component.map[ t ] )
-    {
-        console.log( "NCS: No components of '" + target + "' exist" )
-        return
-    }
+        return []
 
     return Component.map[ t ][ id ];
 }
