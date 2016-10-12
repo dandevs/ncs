@@ -96,7 +96,6 @@ export abstract class Component
             Component._map[ indexName ][ entity.id ].push( object )
         }
 
-        console.log( "ASDSD")
         return object;
     }
 }
