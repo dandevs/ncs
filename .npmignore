@@ -3,3 +3,4 @@ typings
 tsconfig.json
 tsd.json
 .gitignore
+index.ts

@@ -9,6 +9,7 @@
     "prepublish": "tsc"
   },
   "devDependencies": {
+    "dts-generator": "^2.0.0",
     "typescript": "^2.0.3"
   },
   "repository": "dandevs/ncs",

@@ -203,7 +203,7 @@ function initialize( target : Object, args : any[] )
         target[ init_string ]( ...args );
 }
 
-interface IEntity
+export interface IEntity
 {
     root?:      Object;
     id?:        number;
