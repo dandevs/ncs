@@ -3,4 +3,5 @@ typings
 tsconfig.json
 tsd.json
 .gitignore
+.vscode
 index.ts
